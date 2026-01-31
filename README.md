@@ -1,8 +1,20 @@
-# Smart-Energy-Consumption-Analysis-and-Prediction-using-Machine-Learning-with-Device-Level-Insights-
-## Intern Instructions
+# Smart Energy Consumption Analysis and Prediction using Machine Learning
 
-- Each intern must work in an individual branch
-- Branch naming format: firstname-lastname
-- Do NOT push to main branch instead push in your branch 
-- Commit regularly with meaningful messages for every milestone
-- All evaluation will be done via your branch commit history
+## Project Overview
+This project analyzes household-level energy consumption data
+and builds machine learning models to predict future energy usage.
+
+## Dataset
+Individual Household Electric Power Consumption Dataset
+
+## Project Structure
+- Milestone 1: Data Understanding & EDA
+- Milestone 2: Data Cleaning & Preprocessing
+- Milestone 3: Feature Engineering
+- Milestone 4: Baseline Model (Linear Regression)
+
+## Tools & Technologies
+- Python
+- Pandas, NumPy
+- Matplotlib, Seaborn
+- Scikit-learn
