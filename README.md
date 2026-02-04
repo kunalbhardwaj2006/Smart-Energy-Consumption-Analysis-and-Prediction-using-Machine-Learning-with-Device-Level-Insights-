@@ -1,20 +1,189 @@
 # Smart Energy Consumption Analysis and Prediction using Machine Learning
 
-## Project Overview
-This project analyzes household-level energy consumption data
-and builds machine learning models to predict future energy usage.
+---
+
+## Project Overview (Understand Before Coding)
+
+This project implements a **Smart Energy Consumption Analysis System** that:
+
+- Understands energy usage patterns over time
+- Analyzes historical consumption behavior
+- Predicts future energy demand
+- Provides actionable energy-saving insights
+- Exposes results through a simple web-based dashboard
+
+This is a **full machine learning pipeline project**, not just a model:
+
+**Data → Cleaning → Feature Engineering → Modeling → Evaluation → API → Dashboard → Deployment**
+
+---
 
 ## Dataset
-Individual Household Electric Power Consumption Dataset
 
-## Project Structure
-- Milestone 1: Data Understanding & EDA
-- Milestone 2: Data Cleaning & Preprocessing
-- Milestone 3: Feature Engineering
-- Milestone 4: Baseline Model (Linear Regression)
+**Individual Household Electric Power Consumption Dataset**
+
+- Time-series household energy usage data
+- Minute-level measurements
+- Includes global power consumption and sub-metering values
+- Suitable for temporal and sequence-based modeling
+
+---
+
+## Project Timeline & Milestones
+
+---
+
+### WEEK 1 — Data Understanding & Exploration
+
+**Goal:**  
+Understand the dataset deeply before any modeling.
+
+**Key Work:**
+- Defined project scope and prediction objective
+- Studied dataset structure and column meanings
+- Performed exploratory data analysis (EDA)
+- Identified missing values and abnormal spikes
+
+**Output:**
+- Structured EDA notebook
+- Time-series plots
+- Written observations and insights
+
+---
+
+### WEEK 2 — Data Cleaning & Preprocessing
+
+**Goal:**  
+Convert raw data into clean, model-ready format.
+
+**Key Work:**
+- Handled missing timestamps and values
+- Outlier detection and treatment
+- Time-based resampling (hourly aggregation)
+- Feature scaling and normalization
+- Time-based train-test split (no shuffling)
+
+**Output:**
+- Cleaned dataset
+- Reproducible preprocessing pipeline
+
+---
+
+### WEEK 3 — Feature Engineering
+
+**Goal:**  
+Create meaningful features that capture energy usage patterns.
+
+**Key Work:**
+- Time-based features (hour, weekday, month, weekend)
+- Lag features (previous consumption)
+- Rolling statistics (moving averages)
+- Energy trend representation
+
+**Output:**
+- Feature matrix (X)
+- Target variable (y)
+- Feature explanations and visualizations
+
+---
+
+### WEEK 4 — Baseline Model (Linear Regression)
+
+**Goal:**  
+Establish a simple, interpretable baseline.
+
+**Key Work:**
+- Implemented Linear Regression
+- Trained on engineered features
+- Evaluated using MAE and RMSE
+- Visualized actual vs predicted consumption
+
+**Output:**
+- Baseline model notebook
+- Performance metrics
+- Benchmark for comparison
+
+---
+
+### WEEK 5 — LSTM Model (Advanced Modeling)
+
+**Goal:**  
+Capture temporal dependencies using deep learning.
+
+**Key Work:**
+- Sequence generation using sliding windows
+- Designed stacked LSTM architecture
+- Model training and validation
+- Loss curve analysis
+
+**Output:**
+- Trained LSTM model
+- Training and validation loss plots
+- Saved model for inference
+
+---
+
+### WEEK 6 — Model Comparison & Integration
+
+**Goal:**  
+Select the best model for production usage.
+
+**Key Work:**
+- Compared Linear Regression and LSTM
+- Evaluated using MAE, RMSE, and R²
+- Selected LSTM as production-ready model
+- Prepared model for Flask API integration
+
+**Output:**
+- Model comparison results
+- Final selected model
+
+---
+
+### WEEK 7 — Dashboard & Insights *(Planned)*
+
+**Goal:**  
+Convert model predictions into user-understandable insights.
+
+**Planned Work:**
+- Build visual dashboards
+- Show hourly, daily, and weekly trends
+- Identify peak energy usage periods
+- Provide actionable energy-saving suggestions
+
+**Expected Outcome:**
+- Clear visual interpretation of consumption behavior
+- Insight-driven recommendations
+
+---
+
+### WEEK 8 — Deployment & Final Delivery *(Planned)*
+
+**Goal:**  
+Deliver the project like a professional ML engineer.
+
+**Planned Work:**
+- Flask backend for model inference
+- Frontend integration
+- Final testing and validation
+- Clean documentation
+- Final GitHub submission
+
+---
 
 ## Tools & Technologies
+
 - Python
-- Pandas, NumPy
+- NumPy, Pandas
 - Matplotlib, Seaborn
 - Scikit-learn
+- TensorFlow / Keras
+- Flask (planned)
+- Jupyter Notebook
+
+---
+
+## Author
+
+**Kunal Bhardwaj**  
+Machine Learning Internship Project
