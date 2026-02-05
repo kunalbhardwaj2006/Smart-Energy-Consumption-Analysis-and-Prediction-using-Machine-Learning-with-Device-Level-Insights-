@@ -63,12 +63,23 @@ time_view = st.sidebar.selectbox(
 # -------------------------------------------------
 # Resampling logic (SAFE & CLEAN)
 # -------------------------------------------------
-if time_view == "Hourly":
-    data = df["Global_active_power"].resample("H").mean()
-elif time_view == "Daily":
-    data = df["Global_active_power"].resample("D").mean()
-else:
-    data = df["Global_active_power"].resample("W").mean()
+# -------------------------------------------------
+# Insights section (data-driven)
+# -------------------------------------------------
+st.markdown("## 💡 Energy-Saving Insights")
+
+peak_hour = df["Global_active_power"].resample("h").mean().idxmax().hour
+avg_daily = df["Global_active_power"].resample("D").mean().mean()
+max_daily = df["Global_active_power"].resample("D").mean().max()
+
+st.write(f"⚡ Peak energy usage occurs around **{peak_hour}:00 hours**.")
+st.write("🔁 Consider shifting heavy appliance usage to off-peak hours.")
+
+if max_daily > avg_daily * 1.5:
+    st.write("🚨 Sudden high daily consumption detected — inefficient appliances may be present.")
+
+st.write("📊 Weekly trend analysis helps identify abnormal consumption spikes.")
+
 
 # -------------------------------------------------
 # Plot
