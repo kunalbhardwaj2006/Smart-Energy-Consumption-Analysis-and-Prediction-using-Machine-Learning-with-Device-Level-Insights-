@@ -80,6 +80,10 @@ if max_daily > avg_daily * 1.5:
 
 st.write("📊 Weekly trend analysis helps identify abnormal consumption spikes.")
 
+# -------------------------------------------------
+# Resampling logic (MUST COME BEFORE PLOT)
+# -------------------------------------------------
+data = df["Global_active_power"].resample("h").mean()
 
 # -------------------------------------------------
 # Plot
@@ -110,3 +114,26 @@ st.markdown(
 )
 
 st.success("Dashboard loaded successfully 🚀")
+@st.cache_data
+def load_data():
+    df = pd.read_csv(
+        "../data/household_power_consumption.txt",
+        sep=";",
+        na_values="?"
+    )
+
+    df["Datetime"] = pd.to_datetime(
+        df["Date"] + " " + df["Time"],
+        dayfirst=True,
+        errors="coerce"
+    )
+
+    df["Global_active_power"] = pd.to_numeric(
+        df["Global_active_power"],
+        errors="coerce"
+    )
+
+    df = df.dropna(subset=["Datetime", "Global_active_power"])
+    df = df.set_index("Datetime")
+
+    return df
