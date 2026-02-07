@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 # Ignore local dataset
 data/household_power_consumption.txt
+backend/*.pkl
