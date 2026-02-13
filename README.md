@@ -187,3 +187,29 @@ Deliver the project like a professional ML engineer.
 
 **Kunal Bhardwaj**  
 Machine Learning Internship Project
+## Milestone 7: Dashboard & Insights
+- Built interactive dashboard using Streamlit
+- Visualized hourly, daily, weekly energy consumption trends
+- Added actionable energy-saving insights based on usage patterns
+
+## Milestone 8: Deployment & Integration
+- Developed Flask REST API for energy prediction
+- Integrated ML model with backend
+- Connected Streamlit dashboard to Flask API
+- Tested end-to-end pipeline locally
+## How to Run the Project Locally
+
+### 1. Start Backend (Flask)
+```bash
+cd backend
+python app.py
+## 📊 Dashboard Preview
+
+### Hourly Energy Consumption
+![Hourly](screenshots/hourly.png)
+
+### Daily Energy Consumption
+![Daily](screenshots/daily.png)
+
+### Weekly Energy Consumption
+![Weekly](screenshots/weekly.png)
