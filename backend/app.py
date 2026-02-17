@@ -1,108 +1,76 @@
-from flask import Flask, request, jsonify
-import pandas as pd
-import numpy as np
-from sklearn.linear_model import LinearRegression
-import joblib
+# =========================================================
+# SMART ENERGY BACKEND API
+# =========================================================
+
 import os
+import numpy as np
+import pandas as pd
+import joblib
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# --------------------------------------------------
-# Configuration
-# --------------------------------------------------
-DATA_PATH = "data/household_power_consumption.txt"
-MODEL_PATH = "energy_model.pkl"
+# ---------------------------------------------------------
+# PATH SETUP (ABSOLUTE - NO RELATIVE CONFUSION)
+# ---------------------------------------------------------
 
-# --------------------------------------------------
-# Load & Prepare Data
-# --------------------------------------------------
-def load_data():
-    df = pd.read_csv(
-        DATA_PATH,
-        sep=";",
-        na_values="?"
-    )
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
-    df["Datetime"] = pd.to_datetime(
-        df["Date"] + " " + df["Time"],
-        dayfirst=True,
-        errors="coerce"
-    )
+DATA_PATH = os.path.join(PROJECT_ROOT, "data", "household_power_consumption.txt")
+SCALER_PATH = os.path.join(PROJECT_ROOT, "feature_scaler.pkl")
+TARGET_SCALER_PATH = os.path.join(PROJECT_ROOT, "target_scaler.pkl")
 
-    df["Global_active_power"] = pd.to_numeric(
-        df["Global_active_power"],
-        errors="coerce"
-    )
+# ---------------------------------------------------------
+# LOAD DATA FOR SIMPLE BASELINE PREDICTION
+# ---------------------------------------------------------
 
-    df = df.dropna(subset=["Datetime", "Global_active_power"])
-    df = df.set_index("Datetime")
+if not os.path.exists(DATA_PATH):
+    raise FileNotFoundError(f"Dataset not found at: {DATA_PATH}")
 
-    hourly = df["Global_active_power"].resample("h").mean().dropna()
+df = pd.read_csv(
+    DATA_PATH,
+    sep=";",
+    na_values="?",
+    low_memory=False
+)
 
-    return hourly
+df["Datetime"] = pd.to_datetime(
+    df["Date"] + " " + df["Time"],
+    dayfirst=True,
+    errors="coerce"
+)
 
+df["Global_active_power"] = pd.to_numeric(
+    df["Global_active_power"],
+    errors="coerce"
+)
 
-# --------------------------------------------------
-# Train or Load Model
-# --------------------------------------------------
-def train_or_load_model():
-    if os.path.exists(MODEL_PATH):
-        return joblib.load(MODEL_PATH)
+df = df.dropna(subset=["Datetime", "Global_active_power"])
+df = df.set_index("Datetime")
 
-    data = load_data()
-
-    X = np.arange(len(data)).reshape(-1, 1)
-    y = data.values
-
-    model = LinearRegression()
-    model.fit(X, y)
-
-    joblib.dump(model, MODEL_PATH)
-    return model
-
-
-model = train_or_load_model()
-
-
-# --------------------------------------------------
-# Routes
-# --------------------------------------------------
-@app.route("/")
-def home():
-    return jsonify({
-        "message": "Smart Energy Consumption API is running",
-        "status": "OK"
-    })
-
+# ---------------------------------------------------------
+# SIMPLE BASELINE FORECAST (Last value repeat)
+# ---------------------------------------------------------
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    """
-    Expected JSON:
-    {
-        "hours_ahead": 24
-    }
-    """
 
-    input_data = request.get_json()
-    hours = int(input_data.get("hours_ahead", 24))
+    data = request.get_json()
 
-    data = load_data()
-    last_index = len(data)
+    hours_ahead = int(data.get("hours_ahead", 24))
 
-    future_X = np.arange(last_index, last_index + hours).reshape(-1, 1)
-    predictions = model.predict(future_X)
+    last_value = df["Global_active_power"].iloc[-1]
+
+    predictions = [float(last_value)] * hours_ahead
 
     return jsonify({
-        "hours_ahead": hours,
-        "predictions": predictions.tolist(),
+        "hours_ahead": hours_ahead,
+        "predictions": predictions,
         "unit": "kW",
-        "model": "Linear Regression (Baseline)"
+        "model": "Naive Baseline (Last Value)"
     })
 
 
-# --------------------------------------------------
-# Run Server
-# --------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
